@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import WeatherContext from '../weatherContext';
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather?';
 const ICON_URL = 'http://openweathermap.org/img/wn/';
@@ -15,6 +15,9 @@ class CurrTemp extends Component {
         }
     }
     
+    //Fetch request to gather data
+    //We generate a query string seperately
+    //and then tack it on to the search url
     componentDidMount() {
         const { API_KEY, coords } = this.context;
         const params = {
@@ -42,6 +45,8 @@ class CurrTemp extends Component {
             })
         }
         
+        //takes in an object of params for the url,
+        //generates the string by combining the key value pair
         generateQueryString = (params) => {
             
             const queryItems = Object.keys(params)
@@ -50,6 +55,8 @@ class CurrTemp extends Component {
             
         }
         
+        //Used in case there is more than 1 weather icon in the Weather Array
+        //Based on the API DOCS
         displayIcon = (weatherArray) => {
             return weatherArray.map(weatherCond =>
                 <img key={weatherCond.id} alt={weatherCond.description} src={ICON_URL + weatherCond.icon + '@2x.png'}  />

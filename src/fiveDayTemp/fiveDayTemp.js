@@ -35,6 +35,7 @@ class FiveDayTemp extends Component {
                 }
             })
             .then(weatherDataResp => {
+                //Convert the weather list down to a few elements instead of 40 items
                 if(weatherDataResp) {
                     this.setState({
                         weatherData: this.convertToSimpleList(weatherDataResp.list)
@@ -53,6 +54,9 @@ class FiveDayTemp extends Component {
 
     }
 
+    //Organizes the original array list
+    //By putting each matching day into a new Obj array
+    //Checks to see if it exists, if it does, it gets pushed, else we create a new index
     convertToSimpleList = (list) => {
         let res = {}
             for (let i = 0; i < list.length; i++) {
@@ -73,6 +77,7 @@ class FiveDayTemp extends Component {
         )
     }
 
+    //Toggle button to show or hide the hours for each day
     showHours = () => {
         const {isHidden} = this.state
         this.setState({

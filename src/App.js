@@ -20,6 +20,8 @@ class App extends Component {
     }
   }
 
+  //Uses HTML5 Geolocation on mount
+  //Asks user for permission to get Coords
   componentDidMount() {
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.setLocation)
@@ -30,6 +32,9 @@ class App extends Component {
     }
   }
 
+  //callback function to getCurrentPosition
+  //We set the state at a top level to pass
+  //in the coords to Current Temp and 5 Day Forecast
   setLocation = (pos) => {
     const {coords} = this.state;
     coords.lat = pos.coords.latitude;
