@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import WeatherContext from '../weatherContext';
 
 class Homepage extends Component {
@@ -6,10 +7,10 @@ class Homepage extends Component {
     static contextType = WeatherContext
 
     render() {
-        // console.log(this.context)
         return (
         <section className="homepage">
-            <h1>Hello from Homepage</h1>
+            <Link to="/current" className="currentBox">Get Current Temp</Link>
+            <Link to="/fiveday" className="fiveDayBox">Get Five Day Forecast</Link>
 
             <div className="error">
                 <p>{this.context.error}</p>

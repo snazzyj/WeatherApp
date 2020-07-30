@@ -49,11 +49,10 @@ class App extends Component {
 
     return (
       <div className="App">
-
-        <Link to="/">Home</Link>
-        <Link to="/current">Current</Link>
-        <Link to="/fiveday">Five Day</Link>
-
+        <nav>
+          <Link to="/current">Current</Link>
+          <Link to="/fiveday">Five Day</Link>
+        </nav>
         <WeatherContext.Provider value={contextValue}>
           <Switch>
             <Route exact path="/" component={Homepage} />

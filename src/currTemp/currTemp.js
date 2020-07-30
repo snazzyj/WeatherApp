@@ -61,25 +61,22 @@ class CurrTemp extends Component {
         const { weatherData } = this.state;
         return (
             <section className="currentTemp">
-                {weatherData !== null && (
-                    <Fragment>
+                {!!weatherData && (
+                    <div className="currTemp">
                         <h1>{weatherData.name}</h1>
                         <p>
                             {this.displayIcon(weatherData.weather)}
                             <span>
-                                {weatherData.main.temp}
+                                {Math.round(weatherData.main.temp)} F
                             </span>
                         </p>
                         <p>
-                            <span>
-                            High: {weatherData.main.temp_max}
-                            </span>
-                            |
-                            <span>
-                            Low: {weatherData.main.temp_min}
-                            </span>
+                            High: {Math.round(weatherData.main.temp_max)} F             
                         </p>
-                    </Fragment>
+                        <p>
+                            Low: {Math.round(weatherData.main.temp_min)} F
+                        </p>
+                    </div>
                 )}
             </section>
         )

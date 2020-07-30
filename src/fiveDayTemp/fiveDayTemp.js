@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import WeatherContext from '../weatherContext';
 const API_URL = 'https://api.openweathermap.org/data/2.5/forecast?';
 const ICON_URL = 'http://openweathermap.org/img/wn/';
@@ -10,7 +11,9 @@ class FiveDayTemp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            weatherData: null
+            weatherData: null,
+            isHidden: true,
+
         }
     }
 
@@ -34,9 +37,11 @@ class FiveDayTemp extends Component {
             })
             .then(weatherDataResp => {
                 console.log(weatherDataResp)
-                this.setState({
-                    weatherData: this.convertToSimpleList(weatherDataResp.list)
-                })
+                if(weatherDataResp) {
+                    this.setState({
+                        weatherData: this.convertToSimpleList(weatherDataResp.list)
+                    })
+                }
             })
             .catch(error => {
                 alert(error)
@@ -53,15 +58,15 @@ class FiveDayTemp extends Component {
 
     convertToSimpleList = (list) => {
         let res = {}
-        for (let i = 0; i < list.length; i++) {
-            let day = list[i].dt_txt.slice(0, 10)
-
-            if (!res[day]) {
-                res[day] = [list[i]]
-            } else {
-                res[day].push(list[i])
-            }
-        }        
+            for (let i = 0; i < list.length; i++) {
+                let day = list[i].dt_txt.slice(0, 10)
+                
+                if (!res[day]) {
+                    res[day] = [list[i]]
+                } else {
+                    res[day].push(list[i])
+                }
+            }        
 
         return res
     }
@@ -70,12 +75,19 @@ class FiveDayTemp extends Component {
            <img key={weatherCond.id} alt={weatherCond.description} src={ICON_URL + weatherCond.icon + '@2x.png'}  />
         )
     }
+
+    showHours = () => {
+        const {isHidden} = this.state
+        this.setState({
+            isHidden: !isHidden
+        })
+    }
         
 
     render() {
         const { weatherData } = this.state;
+        console.log(this.state)
         console.log(weatherData)
-        // console.log(revisdedData)
         return (
 
             <section className="fiveDay">
@@ -83,14 +95,17 @@ class FiveDayTemp extends Component {
                     index += 1;
                     return (
                         <div className={day} key={index}>
-                            {this.state.weatherData[day].map((hour) => {
+                            {this.state.weatherData[day].map((hour, index) => {
+                                let date = moment(hour.dt_txt).format('MMM DD, h a');
+                                
                                 return (
-                                    <div key={hour.dt}>
+                                    <div key={hour.dt} className={ index > 0 ? this.state.isHidden ? "hidden" : "tempInfo tempBoxStyle" : "tempInfo tempBoxStyle" } >
+                                        {date}
                                         {this.renderIcon(hour.weather)}
-                                        <p>{hour.main.temp}</p>
-                                        <p>High: {hour.main.temp_max}</p>
-                                        <p>Low: {hour.main.temp_min}</p>
-                                        
+                                        <p>{Math.round(hour.main.temp)}F</p>
+                                        <p>High: {Math.round(hour.main.temp_max)}F</p>
+                                        <p>Low: {Math.round(hour.main.temp_min)}F</p>   
+                                        { index > 0 ? null : <button onClick={this.showHours}>Show Hourly</button> }
                                     </div>
                                 )
                             })}
