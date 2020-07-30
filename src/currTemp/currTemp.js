@@ -26,7 +26,6 @@ class CurrTemp extends Component {
         }
         const queryString = this.generateQueryString(params);
         const searchUrl = API_URL + queryString
-        console.log(searchUrl)
         fetch(searchUrl)
         .then(response => {
             if (response.ok) {

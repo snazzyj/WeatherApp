@@ -28,7 +28,6 @@ class FiveDayTemp extends Component {
         }
         const queryString = this.generateQueryString(params);
         const searchUrl = API_URL + queryString
-        console.log(searchUrl)
         fetch(searchUrl)
             .then(response => {
                 if (response.ok) {
@@ -36,7 +35,6 @@ class FiveDayTemp extends Component {
                 }
             })
             .then(weatherDataResp => {
-                console.log(weatherDataResp)
                 if(weatherDataResp) {
                     this.setState({
                         weatherData: this.convertToSimpleList(weatherDataResp.list)
@@ -49,7 +47,6 @@ class FiveDayTemp extends Component {
     }
 
     generateQueryString = (params) => {
-
         const queryItems = Object.keys(params)
             .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
         return queryItems.join('&');
@@ -86,8 +83,6 @@ class FiveDayTemp extends Component {
 
     render() {
         const { weatherData } = this.state;
-        console.log(this.state)
-        console.log(weatherData)
         return (
 
             <section className="fiveDay">
